@@ -3,7 +3,7 @@ import argparse
 import cv2
 import numpy as np
 import tensorflow as tf
-import neuralgym as ng
+# import neuralgym as ng
 
 from inpaint_model import InpaintCAModel
 
@@ -20,7 +20,7 @@ parser.add_argument('--checkpoint_dir', default='', type=str,
 
 
 if __name__ == "__main__":
-    ng.get_gpus(1)
+    # ng.get_gpus(1)
     args = parser.parse_args()
 
     model = InpaintCAModel()
@@ -37,6 +37,7 @@ if __name__ == "__main__":
 
     image = np.expand_dims(image, 0)
     mask = np.expand_dims(mask, 0)
+    print(np.shape(mask))
     input_image = np.concatenate([image, mask], axis=2)
 
     sess_config = tf.ConfigProto()
