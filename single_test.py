@@ -30,11 +30,11 @@ def single_img_test(model_path,image_path, mask_path):
     output = tf.get_default_graph().get_tensor_by_name("output:0")
     
     image_feed = image_reader(image_path)
-    image_feed = cv2.resize(image_feed,(256,256))
+    # image_feed = cv2.resize(image_feed, (512, 512))
     
     image_feed = np.expand_dims(image_feed,0)
     mask_feed = image_reader(mask_path)
-    mask_feed = cv2.resize(mask_feed, (256, 256))
+    # mask_feed = cv2.resize(mask_feed, (512, 512))
     mask_feed = np.expand_dims(mask_feed, 0)
     
     output_value = sess.run(output, feed_dict={image: image_feed,mask: mask_feed})
@@ -44,6 +44,7 @@ def single_img_test(model_path,image_path, mask_path):
     cv2.imwrite("inpainted.png", inpainted_img)
     print("Done")
  
+
 if __name__ == "__main__":
     single_img_test("model_logs/release_places2_256/deepfill.pb","examples/banner/a1.png","examples/banner/a_mask.png" )
 

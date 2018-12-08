@@ -54,6 +54,7 @@ class InpaintCAModel(Model):
             x = gen_conv(x, 4*cnum, 3, 1, name='conv5')
             x = gen_conv(x, 4*cnum, 3, 1, name='conv6')
             mask_s = resize_mask_like(mask, x)
+ 
             x = gen_conv(x, 4*cnum, 3, rate=2, name='conv7_atrous')
             x = gen_conv(x, 4*cnum, 3, rate=4, name='conv8_atrous')
             x = gen_conv(x, 4*cnum, 3, rate=8, name='conv9_atrous')

@@ -3,8 +3,8 @@ import os
 from inpaint_model import InpaintCAModel
 
 def freeze(ckpt_path):
-    image = tf.placeholder(tf.float32, shape=(1, 256, 256, 3), name='image')
-    mask = tf.placeholder(tf.float32, shape=(1, 256, 256, 3), name='mask')
+    image = tf.placeholder(tf.float32, shape=(1, None, None, 3), name='image')
+    mask = tf.placeholder(tf.float32, shape=(1, None, None, 3), name='mask')
     model = InpaintCAModel()
     input = tf.concat([image, mask],axis=2)
 
