@@ -19,6 +19,10 @@ parser.add_argument('--checkpoint_dir', default='', type=str,
                     help='The directory of tensorflow checkpoint.')
 
 
+'''
+python test.py --image examples/places2/grass_input.png --mask examples/places2/grass_mask.png --checkpoint_dir model_logs/release_places2_256
+'''
+
 if __name__ == "__main__":
     # ng.get_gpus(1)
     args = parser.parse_args()
