@@ -9,11 +9,11 @@ from tensorflow.contrib.framework.python.ops import arg_scope
 from neuralgym.models import Model
 from neuralgym.ops.summary_ops import scalar_summary, images_summary
 from neuralgym.ops.summary_ops import gradients_summary
-from neuralgym.ops.layers import flatten, resize
+from neuralgym.ops.layers import flatten
 from neuralgym.ops.gan_ops import gan_wgan_loss, gradients_penalty
 from neuralgym.ops.gan_ops import random_interpolates
 
-from inpaint_ops import gen_conv, gen_deconv, dis_conv
+from inpaint_ops import gen_conv, gen_deconv, dis_conv,inpaint_resize
 from inpaint_ops import random_bbox, bbox2mask, local_patch
 from inpaint_ops import spatial_discounting_mask
 from inpaint_ops import resize_mask_like, contextual_attention
@@ -181,9 +181,8 @@ class InpaintCAModel(Model):
             scalar_summary('losses/ae_loss', losses['ae_loss'])
             viz_img = [batch_pos, batch_incomplete, batch_complete]
             if offset_flow is not None:
-                viz_img.append(
-                    resize(offset_flow, scale=4,
-                           func=tf.image.resize_nearest_neighbor))
+                viz_img.append(inpaint_resize(offset_flow, tf.cast(tf.shape(offset_flow)[1]*4,tf.int32),tf.cast(tf.shape(offset_flow)[0]*4,tf.int32) ))
+             
             images_summary(
                 tf.concat(viz_img, axis=2),
                 'raw_incomplete_predicted_complete', config.VIZ_MAX_OUT)
@@ -276,9 +275,7 @@ class InpaintCAModel(Model):
         # global image visualization
         viz_img = [batch_pos, batch_incomplete, batch_complete]
         if offset_flow is not None:
-            viz_img.append(
-                resize(offset_flow, scale=4,
-                       func=tf.image.resize_nearest_neighbor))
+            viz_img.append( inpaint_resize(offset_flow, tf.cast(tf.shape(offset_flow)[1]*4,tf.int32),tf.cast(tf.shape(offset_flow)[0]*4,tf.int32) ))
         images_summary(
             tf.concat(viz_img, axis=2),
             name+'_raw_incomplete_complete', config.VIZ_MAX_OUT)
