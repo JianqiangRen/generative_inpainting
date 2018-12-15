@@ -43,12 +43,12 @@ def single_img_test(model_path,image_path, mask_path, out_path):
     height = np.shape(image_feed)[0]
     
     print(np.shape(image_feed))
-    
-    if np.shape(image_feed)[0] > 800 or np.shape(image_feed)[1] > 800:
+    length = 800
+    if np.shape(image_feed)[0] > length or np.shape(image_feed)[1] > length:
         if np.shape(image_feed)[0] > np.shape(image_feed)[1]:
-            image_feed = cv2.resize(image_feed, (int(np.shape(image_feed)[1]* 800/ np.shape(image_feed)[0])//8*8, 800))
+            image_feed = cv2.resize(image_feed, (int(np.shape(image_feed)[1]* length/ np.shape(image_feed)[0])//8*8, length))
         else:
-            image_feed = cv2.resize(image_feed, (800,int( np.shape(image_feed)[0] * 800/np.shape(image_feed)[1])//8*8))
+            image_feed = cv2.resize(image_feed, (length,int( np.shape(image_feed)[0] * length/np.shape(image_feed)[1])//8*8))
     
     image_feed = np.expand_dims(image_feed,0)
     print(np.shape(image_feed))
