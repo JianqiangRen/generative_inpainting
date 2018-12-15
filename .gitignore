@@ -1,6 +1,5 @@
 *.pyc
 model_logs
 neuralgym_logs
-datasets
 *.png
 .*
