@@ -28,6 +28,16 @@ def image_reader(filename):
 
 
 def single_img_test(model_path,image_path, mask_path, out_path):
+    
+    cv_img = cv2.imread(image_path)
+    cv_mask = cv2.imread(mask_path, 0)
+
+    dst = cv2.inpaint(cv_img, cv_mask, 3, cv2.INPAINT_TELEA)
+    cv2.imwrite('telea.png', dst)
+
+    dst2 = cv2.inpaint(cv_img, cv_mask, 3, cv2.INPAINT_NS)
+    cv2.imwrite('ns.png', dst2)
+
     f = tf.gfile.FastGFile(model_path, 'rb')
     graph_def = tf.GraphDef()
     graph_def.ParseFromString(f.read())
@@ -50,13 +60,13 @@ def single_img_test(model_path,image_path, mask_path, out_path):
         else:
             image_feed = cv2.resize(image_feed, (length,int( np.shape(image_feed)[0] * length/np.shape(image_feed)[1])//8*8))
     
-    image_feed = np.expand_dims(image_feed,0)
+
     print(np.shape(image_feed))
     
     mask_feed = image_reader(mask_path)
-    mask_feed = cv2.resize(mask_feed, (np.shape(image_feed)[2],np.shape(image_feed)[1]))
+    mask_feed = cv2.resize(mask_feed, (np.shape(image_feed)[1],np.shape(image_feed)[0]))
+    image_feed = np.expand_dims(image_feed,0)
     mask_feed = np.expand_dims(mask_feed, 0)
-    
     output_value = sess.run(output, feed_dict={image: image_feed,mask: mask_feed})
 
     print('output_value size:', np.shape(output_value))
