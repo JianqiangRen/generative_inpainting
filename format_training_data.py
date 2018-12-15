@@ -28,33 +28,32 @@ if __name__ == "__main__":
     training_file_names = []
     validation_file_names = []
 
-    # append all files into 2 lists
-    for training_dir in training_dirs:
-        # append each file into the list file names
-        training_folder = os.listdir(args.folder_path + "/training" + "/" + training_dir)
-        for training_item in training_folder:
-            # modify to full path -> directory
-            if training_item.startswith("."):
-                continue
-            training_item = args.folder_path + "/training" + "/" + training_dir + "/" + training_item
-            training_file_names.append(training_item)
+ 
+    training_folder = os.listdir(args.folder_path + "/training" )
+    for training_item in training_folder:
+        # modify to full path -> directory
+        if training_item.startswith("."):
+            continue
+        training_item = args.folder_path + "/training" + "/"+training_item
+        training_file_names.append(training_item)
 
-    # append all files into 2 lists
-    for validation_dir in validation_dirs:
-        # append each file into the list file names
-        validation_folder = os.listdir(args.folder_path + "/validation" + "/" + validation_dir)
-        for validation_item in validation_folder:
-            # modify to full path -> directory
-            if validation_item.startswith("."):
-                continue
-            validation_item = args.folder_path + "/validation" + "/" + validation_dir + "/" + validation_item
-            validation_file_names.append(validation_item)
+ 
+    validation_folder = os.listdir(args.folder_path + "/validation" )
+    for validation_item in validation_folder:
+        # modify to full path -> directory
+        if validation_item.startswith("."):
+            continue
+        validation_item = args.folder_path + "/validation" + "/"  + validation_item
+        validation_file_names.append(validation_item)
+
 
     # print all file paths
     for i in training_file_names:
         print(i)
     for i in validation_file_names:
         print(i)
+    print('training sample number :{}'.format(len(training_file_names)))
+    print('validation sample number :{}'.format(len(validation_file_names)))
 
     # shuffle file names if set
     if args.is_shuffled == 1:
