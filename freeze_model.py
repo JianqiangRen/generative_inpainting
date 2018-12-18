@@ -1,6 +1,8 @@
 import tensorflow as tf
 import os
 from inpaint_model import InpaintCAModel
+import argparse
+
 
 def freeze(ckpt_path):
     image = tf.placeholder(tf.float32, shape=(1, None, None, 3), name='image')
@@ -27,8 +29,11 @@ def freeze(ckpt_path):
         path = os.path.dirname(ckpt_path)
         with open(path + '/deepfill.pb', 'wb') as f:
             f.write(frozen_graph_def.SerializeToString())
+    print("frozen model path: {}".format( path + '/deepfill.pb'))
 
 
 if __name__ == '__main__':
-    ckpt_path = 'model_logs/release_places2_256/snap-0'
-    freeze(ckpt_path)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--model_path", dest='model_path', type=str)  # e.g. model_logs/epoch_8/snap-80000
+    args = parser.parse_args()
+    freeze(args.model_path)
