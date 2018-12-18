@@ -59,7 +59,8 @@ def single_img_test(model_path,image_path, mask_path, out_path):
             image_feed = cv2.resize(image_feed, (int(np.shape(image_feed)[1]* length/ np.shape(image_feed)[0])//8*8, length))
         else:
             image_feed = cv2.resize(image_feed, (length,int( np.shape(image_feed)[0] * length/np.shape(image_feed)[1])//8*8))
-    
+    else:
+        image_feed = cv2.resize(image_feed,(int(np.shape(image_feed)[1] // 8 * 8), int(np.shape(image_feed)[0] //8*8)))
 
     print(np.shape(image_feed))
     
