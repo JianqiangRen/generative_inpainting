@@ -45,7 +45,9 @@ if __name__ == "__main__":
         image = tf.get_default_graph().get_tensor_by_name("image:0")
         mask = tf.get_default_graph().get_tensor_by_name("mask:0")
         output = tf.get_default_graph().get_tensor_by_name("output:0")
-
+        
+        if not os.path.exists(image_path):
+            continue
         image_feed = image_reader(image_path)
         width = np.shape(image_feed)[1]
         height = np.shape(image_feed)[0]
@@ -64,6 +66,9 @@ if __name__ == "__main__":
                                     (int(np.shape(image_feed)[1] // 8 * 8), int(np.shape(image_feed)[0] // 8 * 8)))
 
         print(np.shape(image_feed))
+        
+        if not os.path.exists(INPUT_MASK_FOLDER + "/" + mask_name):
+            continue
 
         mask_feed = image_reader(INPUT_MASK_FOLDER + "/" + mask_name)
         mask_feed = cv2.resize(mask_feed, (np.shape(image_feed)[1], np.shape(image_feed)[0]))
